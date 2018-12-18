@@ -9,7 +9,8 @@
 
 (define (stream-cdr stream) (force (cdr stream)))
 
-
+; add a new stream-cadr for our merge function
+(define (stream-cadr stream) (cadr stream))
 
 (define (stream-for-each proc s)
   (if (stream-null? s)
@@ -50,18 +51,17 @@
       ))
 
 ;; insert
-;; (define (insert ))
-
-
+(define (insert pheap val)
+  (merge pheap (make-heap val '())))
 
 
 ;; merge
 (define (merge pheap1 pheap2)
   (cond ((isHeapEmpty? pheap1) pheap2)
-        ((isHeapEmpty2 pheap2) pheap1)
+        ((isHeapEmpty? pheap2) pheap1)
         ((< (stream-car pheap1) (stream-car pheap2))
-         (make-heap (stream-car pheap1) (stream-cons pheap2 (stream-cadr pheap1))))
-        (else (make-heap (stream-car pheap2) (stream-cons pheap1 (stream-cadr pheap2))))))
+         (make-heap (stream-car pheap1) (cons-stream pheap2 (stream-cadr pheap1))))
+        (else (make-heap (stream-car pheap2) (cons-stream pheap1 (stream-cadr pheap2))))))
       
 
 
