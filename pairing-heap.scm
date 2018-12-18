@@ -12,6 +12,9 @@
 ; add a new stream-cadr for our merge function
 (define (stream-cadr stream) (cadr stream))
 
+; add a new stream-cddr for our delete function
+(define (stream-cadr stream) (force (cdr (force (cdr stream)))))
+
 (define (stream-for-each proc s)
   (if (stream-null? s)
       'done
@@ -72,8 +75,10 @@
       (stream-car heap)))
 
 ;; delete-min
-;; (define (delete-min ))
-
-
-;; merge-pairs
-;; (define (merge-pairs ))
+(define (delete-min pheap)
+  (define (merge-pairs pheap-pair)
+    (cond ((isHeapEmpty? pheap-pair) '())
+          ((isHeapEmpty? (stream-cdr pheap-pair)) (stream-car pheap-pair))
+          (else (merge (merge (stream-car pheap-pair) (stream-cadr pheap-pair))
+                       (merge-pairs (stream-cddr pheap-pair))))))
+  (merge-pairs (stream-cadr pheap)))
