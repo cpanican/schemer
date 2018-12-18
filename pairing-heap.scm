@@ -49,10 +49,6 @@
       #f
       ))
 
-; Insert
-(define (insert pheap val)
-  (merge pheap (make-heap val '())))
-
 
 ; Merge
 (define (merge pheap1 pheap2)
@@ -62,7 +58,9 @@
          (make-heap (stream-car pheap1) (cons-stream pheap2 (stream-cadr pheap1))))
         (else (make-heap (stream-car pheap2) (cons-stream pheap1 (stream-cadr pheap2))))))
 
-
+; Insert
+(define (insert pheap val)
+  (merge pheap (make-heap val '())))
 
 
 ; Find min
