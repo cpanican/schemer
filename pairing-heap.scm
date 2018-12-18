@@ -8,17 +8,17 @@
 ; and a new stream-cddr for our delete function
 (define stream-null? null?)
 
-(define (stream-car stream)(car stream))
+(define (stream-car stream) (car stream))
 
 (define (stream-cdr stream) (force (cdr stream)))
 
-(define (stream-cadr stream) (cadr stream))
+(define (stream-cadr stream) (force (cadr stream)))
 
 (define (stream-cddr stream) (force (cdr (force (cdr stream)))))
 
 (define (stream-for-each proc s)
   (if (stream-null? s)
-      'done
+      (newline)
       (begin
 	(proc (stream-car s))
 	(stream-for-each proc (stream-cdr s)))))
@@ -67,7 +67,7 @@
 (define (find-min pheap)
   (if (isHeapEmpty? pheap)
       (delay (display "the heap is empty"))
-      (stream-car make-heap)))
+      (stream-car pheap)))
 
 
 ; Delete min
@@ -78,3 +78,21 @@
           (else (merge (merge (stream-car pheap-pair) (stream-cadr pheap-pair))
                        (merge-pairs (stream-cddr pheap-pair))))))
   (merge-pairs (stream-cadr pheap)))
+
+
+
+; create 2 pairing heaps
+(define pheap1 (make-heap 1 (make-heap 2 3)))
+(define pheap2 (make-heap 4 (make-heap 5 6)))
+
+; merge the two pairing heaps
+(merge pheap1 pheap2)
+
+; insert an element into a pheap
+(insert pheap1 '2)
+
+; cheak if the heap is empty
+(isHeapEmpty? pheap1)
+
+; return the top element of the heap
+(find-min pheap2)
