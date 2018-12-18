@@ -12,7 +12,7 @@
 
 (define (stream-cdr stream) (force (cdr stream)))
 
-(define (stream-cadr stream) (force (cadr stream)))
+(define (stream-cadr stream) (cadr stream))
 
 (define (stream-cddr stream) (force (cdr (force (cdr stream)))))
 
@@ -63,6 +63,8 @@
         (else (make-heap (stream-car pheap2) (cons-stream pheap1 (stream-cadr pheap2))))))
 
 
+
+
 ; Find min
 (define (find-min pheap)
   (if (isHeapEmpty? pheap)
@@ -82,17 +84,21 @@
 
 
 ; create 2 pairing heaps
-(define pheap1 (make-heap 1 (make-heap 2 3)))
-(define pheap2 (make-heap 4 (make-heap 5 6)))
+(define pheap1 (make-heap 1 (make-heap 3 4)))
+(define pheap2 (make-heap 2 (make-heap 5 6)))
 
-; merge the two pairing heaps
+; merge the two pairing heaps and return the parent root node being the smallest element,
+; in this case 1 will be the parent root node since 1 < 2.
 (merge pheap1 pheap2)
 
-; insert an element into a pheap
-(insert pheap1 '2)
+; insert 1 into pheap2 and create a new heap by calling merge in the
+; insert function and display the min element of the new heap created
+(find-min (insert pheap2 1))
+; for this one it will return 1 for the min element since 1 is < 2 since it insert 1 into pheap2
 
 ; cheak if the heap is empty
 (isHeapEmpty? pheap1)
 
 ; return the top element of the heap
+; this returns 2 because the top element of the heap for pheap2 which is 2.
 (find-min pheap2)
