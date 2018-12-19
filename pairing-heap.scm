@@ -1,3 +1,4 @@
+; Definition of streams for Abelson and Sussman, Section 3.5
 ; Create a cons-stream function
 (define-syntax cons-stream
   (syntax-rules ()
@@ -22,15 +23,8 @@
 	(proc (stream-car s))
 	(stream-for-each proc (stream-cdr s)))))
 
-; Displays the stream of the pairing heap
-(define (display-stream s)
-  (stream-for-each display-line s))
 
-; Prints it to the console
-(define (display-line x)
-  (display x))
-
-
+; Lazy Pairing Heap implementation
 ; Definition of Pairing heap
 (define (make-heap root trees)
   (cons-stream root (cons-stream trees '())))
